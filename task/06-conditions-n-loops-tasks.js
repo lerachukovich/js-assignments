@@ -30,8 +30,17 @@
  *
  */
 function getFizzBuzz(num) {
-    throw new Error('Not implemented');
-}
+    if (num % 3 === 0 && num % 5 === 0) {
+        return 'FizzBuzz';
+    }
+    else if (num % 3 === 0) {
+        return 'Fizz';
+    }
+    else if (num % 5 === 0) {
+        return 'Buzz';
+    }
+    return num;
+};
 
 
 /**
@@ -46,8 +55,17 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    throw new Error('Not implemented');
+    let result = n;
+    if (n === 0 || n === 1) {
+        return 1;
+    }
+    while (n > 1) {
+        n--;
+        result = result * n;
+    }
+    return result;
 }
+
 
 
 /**
@@ -63,9 +81,14 @@ function getFactorial(n) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(n1, n2) {
-    throw new Error('Not implemented');
+    let i = n1;
+    let result = 0;
+    while (i <=n2) {
+        result = result + i;
+        i = i + 1;
+    }
+    return result;
 }
-
 
 /**
  * Returns true, if a triangle can be built with the specified sides a,b,c and false in any other ways.
@@ -73,7 +96,7 @@ function getSumBetweenNumbers(n1, n2) {
  * @param {number} a
  * @param {number} b
  * @param {number} c
- * @return {bool}
+ * @return {boolean}
  *
  * @example:
  *   1,2,3    =>  false
@@ -82,7 +105,14 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,10,10 =>  true
  */
 function isTriangle(a,b,c) {
-    throw new Error('Not implemented');
+    let max = Math.max(a, b, c);
+    let sum = a + b + c;
+    if (sum - max > max) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 
@@ -151,6 +181,16 @@ function doRectanglesOverlap(rect1, rect2) {
  */
 function isInsideCircle(circle, point) {
     throw new Error('Not implemented');
+    // let x = circle.x;
+    // let y = circle.y;
+    // let radius = circle.radius;
+    // let a = point.x;
+    // let b = point.y;
+    // let distance = Math.sqrt((a - x) ** 2) + ((b - y) ** 2);
+    // if (distance * distance < radius * radius) {
+    //     return true;
+    // }
+    // return false;
 }
 
 
@@ -158,7 +198,7 @@ function isInsideCircle(circle, point) {
  * Returns the first non repeated char in the specified strings otherwise returns null.
  *
  * @param {string} str
- * @return {string}
+ * @return {null}
  *
  * @example:
  *   'The quick brown fox jumps over the lazy dog' => 'T'
@@ -166,9 +206,14 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    for (let i = 0; i < str.length; i++) {
+        let c = str.charAt(i);
+        if (str.indexOf(c) === i && str.indexOf(c, i + 1) === -1) {
+            return c;
+        }
+    }
+    return null;
 }
-
 
 /**
  * Returns the string representation of math interval, specified by two points and include / exclude flags.
@@ -209,7 +254,11 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    let newString = "";
+    for (let i = str.length - 1; i >= 0; i--) {
+        newString += str[i];
+    }
+    return newString;
 }
 
 
@@ -226,7 +275,8 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    let result = num + '';
+    return result.split('').reverse().join('');
 }
 
 
@@ -270,9 +320,18 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    let sum = num.toString().split('').map(Number).reduce(function (a, b) {
+            return a + b;
+        }, 0);
+    if (sum > 9) {
+        return sum.toString().split('').map(Number).reduce(function (a, b) {
+            return a + b;
+        }, 0);
+    }
+    else {
+        return sum;
+    }
 }
-
 
 /**
  * Returns true if the specified string has the balanced brackets and false otherwise.
@@ -398,7 +457,6 @@ function getCommonDirectoryPath(pathes) {
 function getMatrixProduct(m1, m2) {
     throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the evaluation of the specified tic-tac-toe position.

@@ -27,6 +27,7 @@ function Rectangle(width, height) {
 }
 
 
+
 /**
  * Returns the JSON representation of specified object
  *

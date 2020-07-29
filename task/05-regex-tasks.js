@@ -31,9 +31,8 @@
  * @return {RegExp}
  */
 function getRegexForGuid() {
-   throw new Error('Not implemented');
+    throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the regexp that matches all the strings from first column

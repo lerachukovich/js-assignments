@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 /**
@@ -37,7 +37,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 
@@ -56,8 +56,19 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+   let year = date.getFullYear();
+   if (year % 4 !== 0) {
+      return false;
+   }
+   else if (year % 100 !== 0) {
+      return true;
+   }
+   else if (year % 400 !== 0) {
+      return false;
+   }
+   return true;
 }
+
 
 
 /**
@@ -77,6 +88,8 @@ function isLeapYear(date) {
  */
 function timeSpanToString(startDate, endDate) {
    throw new Error('Not implemented');
+   // return String(endDate.getTime() - startDate.getTime());
+   // let date = new Date(endDate - startDate);
 }
 
 
@@ -94,7 +107,22 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+   // let time = new Date(date);
+   // let oneHourAngle = 30;
+   // let oneMinuteAngle = 6;
+   // let allHours = time.getUTCHours() + time.getUTCMinutes() / 60;
+   // if (allHours > 12) {
+   //  allHours = allHours - 12;
+   // };
+   // let hourAngle = oneHourAngle * allHours;
+   // let minuteAngle = oneMinuteAngle * time.getUTCMinutes();
+   // let angle = Math.abs(hourAngle - minuteAngle);
+   // let radians = angle / 180 * Math.PI;
+   // if (radians > Math.PI) {
+   //  radians = radians - Math.PI;
+   // };
+   // return radians;
+   throw new Error('Not implemented');
 }
 
 
