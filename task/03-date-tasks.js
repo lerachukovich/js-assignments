@@ -87,11 +87,33 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
-   // return String(endDate.getTime() - startDate.getTime());
-   // let date = new Date(endDate - startDate);
-}
+    //get timespan from two dates in milliseconds
+    let timeSpan =  endDate.getTime() - startDate.getTime();
+    //get all full hours from timespan in milliseconds and convert them into hours
+    let hours = Math.floor(timeSpan / 3600000);
+    //get all full remaining minutes from timespan in milliseconds and convert them into minutes
+    let minutes = Math.floor( (timeSpan % 3600000)/ 60000);
+    //get all full remaining seconds from timespan in milliseconds and convert them into seconds
+    let seconds = Math.floor((timeSpan % 60000) / 1000);
+    //get all remaining milliseconds from timespan
+    let milliseconds = timeSpan % 1000;
 
+    //convert from h:m:s:ss to Hh:mm:ss:sss
+    if (hours < 10) {
+        hours = `0${hours}`;
+    }
+    if (minutes < 10) {
+        minutes = `0${minutes}`;
+    }
+    if (seconds < 10) {
+        seconds = `0${seconds}`;
+    }
+    if (milliseconds < 100) {
+        milliseconds = `00${milliseconds}`;
+    }
+
+    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+}
 
 /**
  * Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
@@ -107,22 +129,21 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-   // let time = new Date(date);
-   // let oneHourAngle = 30;
-   // let oneMinuteAngle = 6;
-   // let allHours = time.getUTCHours() + time.getUTCMinutes() / 60;
-   // if (allHours > 12) {
-   //  allHours = allHours - 12;
-   // };
-   // let hourAngle = oneHourAngle * allHours;
-   // let minuteAngle = oneMinuteAngle * time.getUTCMinutes();
-   // let angle = Math.abs(hourAngle - minuteAngle);
-   // let radians = angle / 180 * Math.PI;
-   // if (radians > Math.PI) {
-   //  radians = radians - Math.PI;
-   // };
-   // return radians;
-   throw new Error('Not implemented');
+    let someDate = new Date(date);
+    let degreesPerMinute = 6;
+    let hours = someDate.getUTCHours();
+    if (hours > 12) {
+        hours = hours - 12;
+    }
+    let hourAngle = 0.5 * (60 * hours + someDate.getUTCMinutes());
+
+    let minuteAngle = degreesPerMinute * someDate.getUTCMinutes();
+    let angleBetweenClock = Math.abs(hourAngle - minuteAngle);
+    if (angleBetweenClock > 180) {
+        angleBetweenClock = 360 - angleBetweenClock;
+    }
+    let radians = angleBetweenClock * Math.PI / 180;
+    return radians;
 }
 
 

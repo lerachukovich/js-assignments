@@ -83,7 +83,7 @@ function getFactorial(n) {
 function getSumBetweenNumbers(n1, n2) {
     let i = n1;
     let result = 0;
-    while (i <=n2) {
+    while (i <= n2) {
         result = result + i;
         i = i + 1;
     }
@@ -149,9 +149,13 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
-}
+    rect1.right = rect1.left + rect1.width;
+    rect1.bottom = rect1.top + rect1.height;
+    rect2.right = rect2.left + rect2.width;
+    rect2.bottom = rect2.top + rect2.height;
 
+    return rect1.left < rect2.right && rect1.right > rect2.left && rect1.top < rect2.bottom && rect1.bottom > rect2.top;
+}
 
 /**
  * Returns true, if point lies inside the circle, otherwise false.
@@ -180,19 +184,18 @@ function doRectanglesOverlap(rect1, rect2) {
  *   
  */
 function isInsideCircle(circle, point) {
-    throw new Error('Not implemented');
-    // let x = circle.x;
-    // let y = circle.y;
-    // let radius = circle.radius;
-    // let a = point.x;
-    // let b = point.y;
-    // let distance = Math.sqrt((a - x) ** 2) + ((b - y) ** 2);
-    // if (distance * distance < radius * radius) {
-    //     return true;
-    // }
-    // return false;
+    let x1 = circle.center.x;
+    let y1 = circle.center.y;
+    let radius = circle.radius;
+    let a = point.x;
+    let b = point.y;
+    let distance = (a - x1) ** 2 + (b - y1) ** 2;
+    radius *= radius;
+    if (distance < radius) {
+        return true;
+    }
+    return false;
 }
-
 
 /**
  * Returns the first non repeated char in the specified strings otherwise returns null.
@@ -207,9 +210,9 @@ function isInsideCircle(circle, point) {
  */
 function findFirstSingleChar(str) {
     for (let i = 0; i < str.length; i++) {
-        let c = str.charAt(i);
-        if (str.indexOf(c) === i && str.indexOf(c, i + 1) === -1) {
-            return c;
+        let char = str.charAt(i);
+        if (str.indexOf(char) === i && str.indexOf(char, i + 1) === -1) {
+            return char;
         }
     }
     return null;
@@ -275,11 +278,8 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    let result = num + '';
-    return result.split('').reverse().join('');
+    return num.toString().split('').reverse().join('');
 }
-
-
 /**
  * Validates the CCN (credit card number) and return true if CCN is valid
  * and false otherwise.
@@ -301,16 +301,52 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
-}
+    // let arr = ccn.toString().split('');
+    // let result = arr.map(Number);
+    // result = result.map(function (a, b) {
+    //     if (b % 2 !== 0) {
+    //         return a * 2;
+    //     }
+    //     else if (b % 2 === 0) {
+    //         return a;
+    //     }
+    // })
+    // result = result.join('');
+    // return result;
 
+    // if (b % 2 !== 0) {
+    //     return a * 2;
+    // }
+    // else if (b % 2 === 0) {
+    //     return a * 1;
+    // }
+
+    let cardNumber = ccn.toString().split('').join("");
+    let cardArray = new Array();
+    for (let i = 0; i < cardNumber.length; i++) {
+        cardArray[cardArray.length] = cardNumber.charCodeAt(i) - 48;
+    }
+    cardArray.reverse();
+    let sum = 0;
+    for (let i = 0; i < cardArray.length; i++) {
+        let num = cardArray[i];
+        if (i % 2 !== 0) {
+            num *= 2;
+            if (num > 9) {
+                num -= 9;
+            }
+        }
+        sum += num;
+    }
+    return sum % 10 === 0;
+}
 
 /**
  * Returns the digital root of integer:
  *   step1 : find sum of all digits
  *   step2 : if sum > 9 then goto step1 otherwise return the sum
  *
- * @param {number} n
+ * @param {number} num
  * @return {number}
  *
  * @example:
@@ -332,7 +368,6 @@ function getDigitalRoot(num) {
         return sum;
     }
 }
-
 /**
  * Returns true if the specified string has the balanced brackets and false otherwise.
  * Balanced means that is, whether it consists entirely of pairs of opening/closing brackets
@@ -355,7 +390,28 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    let stack = [];
+    let bracketsMap = {
+        '(': ')',
+        '[': ']',
+        '{': '}',
+        '<': '>'
+    }
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === '(' || str[i] === '{' || str[i] === '[' || str[i] === '<') {
+            stack.push(str[i]);
+        }
+        else {
+            let last = stack.pop();
+            if (str[i] !== bracketsMap[last]) {
+                return false
+            }
+        }
+    }
+    if (stack.length !== 0) {
+        return false
+    }
+    return true;
 }
 
 
@@ -391,7 +447,49 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+    let timeSpan = endDate.getTime() - startDate.getTime();
+    let second = 1000;
+    let minute = 60 * second;
+    let hour = 60 * minute;
+    let day = 24 * hour;
+    let month = 30 * day;
+    let year = 12 * month;
+    const result = (timesp, unit) => {
+        return Math.round((timesp - 1) / unit);
+    }
+
+    if (timeSpan <= 45 * second) {
+        return 'a few seconds ago';
+    }
+    else if (timeSpan <= 90 * second) {
+        return 'a minute ago';
+    }
+    else if (timeSpan <= 45 * minute) {
+        return `${result(timeSpan, minute)} minutes ago`;
+    }
+    else if (timeSpan <= 90 * minute) {
+        return 'an hour ago';
+    }
+    else if (timeSpan <= 22 * hour) {
+        return `${result(timeSpan, hour)} hours ago`;
+    }
+    else if (timeSpan <= 36 * hour) {
+        return 'a day ago';
+    }
+    else if (timeSpan <= 25 * day) {
+        return `${result(timeSpan, day)} days ago`;
+    }
+    else if (timeSpan <= 45 * day) {
+        return 'a month ago';
+    }
+    else if (timeSpan <= 345 * day) {
+        return `${result(timeSpan, month)} months ago`;
+    }
+    else if (timeSpan <= 545 * day) {
+        return 'a year ago';
+    }
+
+    return `${result(timeSpan, year)} years ago`;
 }
 
 
@@ -415,7 +513,12 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    let result = '';
+    while (num !== 0) {
+        result = num % n + result;
+        num = Math.trunc(num / n);
+    }
+    return result;
 }
 
 
@@ -432,9 +535,18 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
+    // let result = '';
+    // for (let i = 0; i < pathes[1].length; i++) {
+    //     if (pathes[0][i] === pathes[1][i]) {
+    //         result += pathes[0][i];
+    //     }
+    // }
+    // return result;
     throw new Error('Not implemented');
+
 }
 
+// console.log(getCommonDirectoryPath(['/web/images/image1.png', '/web/images/image2.png'] ));
 
 /**
  * Returns the product of two specified matrixes.
@@ -455,7 +567,18 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    let result = [];
+    for (let i = 0; i < m1.length; i++) {
+        result[i] = [];
+        for (let j = 0; j < m2[0].length; j++) {
+            let sum = 0;
+            for (let k = 0; k < m1[0].length; k++) {
+                sum += m1[i][k] * m2[k][j];
+            }
+            result[i][j] = sum;
+        }
+    }
+    return result;
 }
 
 /**
