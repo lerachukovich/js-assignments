@@ -240,9 +240,12 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    let start = isStartIncluded ? '[' : '(';
+    let end = isEndIncluded ? ']' : ')';
+    let max = Math.max(a, b);
+    let min = Math.min(a, b);
+    return `${start}${min}, ${max}${end}`;
 }
-
 
 /**
  * Reverse the specified string (put all chars in reverse order)
@@ -301,26 +304,6 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    // let arr = ccn.toString().split('');
-    // let result = arr.map(Number);
-    // result = result.map(function (a, b) {
-    //     if (b % 2 !== 0) {
-    //         return a * 2;
-    //     }
-    //     else if (b % 2 === 0) {
-    //         return a;
-    //     }
-    // })
-    // result = result.join('');
-    // return result;
-
-    // if (b % 2 !== 0) {
-    //     return a * 2;
-    // }
-    // else if (b % 2 === 0) {
-    //     return a * 1;
-    // }
-
     let cardNumber = ccn.toString().split('').join("");
     let cardArray = new Array();
     for (let i = 0; i < cardNumber.length; i++) {
@@ -535,15 +518,7 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    // let result = '';
-    // for (let i = 0; i < pathes[1].length; i++) {
-    //     if (pathes[0][i] === pathes[1][i]) {
-    //         result += pathes[0][i];
-    //     }
-    // }
-    // return result;
     throw new Error('Not implemented');
-
 }
 
 // console.log(getCommonDirectoryPath(['/web/images/image1.png', '/web/images/image2.png'] ));

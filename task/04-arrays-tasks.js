@@ -546,7 +546,13 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-   throw new Error('Not implemented');
+   return array.reduce((p, c) => {
+      const key = keySelector(c);
+      const value = valueSelector(c);
+      const element = p.get(key) || [];
+      element.push(value);
+      return p.set(key, element);
+   }, new Map());
 }
 
 
